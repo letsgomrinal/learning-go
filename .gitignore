@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Build outputs from the lessons (go build -o ...)
+/course/part4/24_cli/gwc
+/course/part4/30_shipping/app
+hello
+*.exe
+*.test
+
+# Profiles and coverage (lesson 29 and 32)
+*.out
+*.prof
+cover.html
+
+# Databases created while trying lesson 28
+*.db
+
+# Jekyll (GitHub Pages) local build
+_site/
+.jekyll-cache/

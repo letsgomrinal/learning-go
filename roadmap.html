@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Go Mastery Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column; stages run down a week-scaled timeline rail, styled like `go test` output. */
+:root {
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --fg: #142030;
+  --muted: #5a6b7d;
+  --line: #d8e0e8;
+  --accent: #0089ad;      /* toned-down Go cyan */
+  --accent-soft: #e0f3f8;
+  --ok: #1f8a4c;
+  --run: #b26a00;
+  --code-bg: #eef2f6;
+  --font-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e151d; --surface: #151f2a; --fg: #e3ebf3; --muted: #93a4b6; --line: #263443;
+    --accent: #3cc4e6; --accent-soft: #10303c; --ok: #4cc47e; --run: #e5a43c; --code-bg: #1b2734;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e151d; --surface: #151f2a; --fg: #e3ebf3; --muted: #93a4b6; --line: #263443;
+  --accent: #3cc4e6; --accent-soft: #10303c; --ok: #4cc47e; --run: #e5a43c; --code-bg: #1b2734;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 var(--font-body);
+}
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
+}
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+
+/* ── Header ── */
+header { display: grid; gap: 20px; margin-bottom: 36px; }
+.eyebrow {
+  font: 600 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent);
+}
+h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
+.lede { color: var(--muted); max-width: 62ch; margin: 0; }
+.summary {
+  display: grid; grid-template-columns: 1fr auto; gap: 12px 20px; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px;
+}
+.bar { height: 8px; background: var(--code-bg); border-radius: 99px; overflow: hidden; grid-column: 1 / -1; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.summary .count { font: 600 14px var(--font-mono); font-variant-numeric: tabular-nums; }
+.start { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px; color: var(--muted); }
+.start input {
+  font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+  border-radius: 6px; padding: 3px 8px;
+}
+
+/* ── Stage nav ── */
+nav.stages {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); padding-block: 10px; margin-bottom: 8px;
+  display: flex; gap: 8px; overflow-x: auto; border-bottom: 1px solid var(--line);
+}
+nav.stages a {
+  flex: none; text-decoration: none; color: var(--fg); font: 500 14px var(--font-body);
+  padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface);
+  display: inline-flex; gap: 8px; align-items: center;
+}
+nav.stages a .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+nav.stages a[data-state="ok"] .dot { background: var(--ok); }
+nav.stages a[data-state="run"] .dot { background: var(--run); }
+
+/* ── Timeline ── */
+.timeline { display: grid; gap: 0; }
+.stage { display: grid; grid-template-columns: 96px 1fr; gap: 0 20px; scroll-margin-top: 72px; }
+.rail { position: relative; padding-top: 30px; text-align: right; }
+.rail::after {
+  content: ""; position: absolute; right: -11px; top: 0; bottom: 0; width: 2px; background: var(--line);
+}
+.rail .weeks { font: 600 13px var(--font-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.rail .dates { font: 400 11px var(--font-mono); color: var(--muted); margin-top: 2px; }
+.rail .node {
+  position: absolute; right: -18px; top: 32px; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--line); z-index: 1;
+}
+.stage[data-state="run"] .node { border-color: var(--run); background: var(--run); }
+.stage[data-state="ok"] .node { border-color: var(--ok); background: var(--ok); }
+.body { padding-block: 24px 36px; min-width: 0; display: grid; gap: 18px; }
+.stage-head { display: grid; gap: 6px; }
+.stage-head .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between; }
+h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; }
+.goal { color: var(--muted); margin: 0; max-width: 62ch; }
+.status { font: 600 13px var(--font-mono); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.status .tag { padding: 1px 6px; border-radius: 4px; margin-right: 6px; }
+.status .tag.ok { color: var(--ok); }
+.status .tag.run { color: var(--run); }
+.status .tag.pending { color: var(--muted); }
+
+h3 {
+  font: 600 12px var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 8px;
+}
+.block { min-width: 0; }
+ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+ul.checks li label {
+  display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; padding: 7px 8px;
+  border-radius: 6px; cursor: pointer;
+}
+ul.checks li label:hover { background: var(--code-bg); }
+ul.checks input { margin: 4px 0 0; width: 16px; height: 16px; accent-color: var(--ok); }
+ul.checks .t { font-weight: 500; }
+ul.checks .d { display: block; color: var(--muted); font-size: 14px; }
+ul.checks input:checked + span .t { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
+
+.milestone {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px;
+}
+.milestone ul.spec { margin: 8px 0 0; padding-left: 20px; color: var(--muted); font-size: 15px; }
+.milestone ul.spec li + li { margin-top: 3px; }
+
+ul.reading { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+ul.reading .why { color: var(--muted); }
+
+details.exit { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; }
+details.exit summary { cursor: pointer; font-weight: 600; }
+details.exit .q { margin: 8px 0 0; }
+details.exit pre { margin: 10px 0; }
+details.exit .a { color: var(--muted); font-size: 15px; margin: 8px 0 0; }
+pre {
+  background: var(--code-bg); border-radius: 8px; padding: 12px 14px; overflow-x: auto;
+  font: 13px/1.55 var(--font-mono);
+}
+
+/* ── Reference sections ── */
+section.ref { margin-top: 48px; display: grid; gap: 14px; }
+section.ref h2 { font-size: 1.6rem; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 12px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { color: var(--muted); }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.rule b { display: block; font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 4px; }
+.rule p { margin: 0; color: var(--muted); font-size: 15px; }
+footer { margin-top: 48px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+footer button {
+  font: inherit; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px;
+  padding: 4px 10px; cursor: pointer;
+}
+footer button:hover { color: var(--fg); }
+
+@media (max-width: 600px) {
+  .stage { grid-template-columns: 1fr; }
+  .rail { text-align: left; padding: 24px 0 0 26px; }
+  .rail::after { left: 7px; right: auto; }
+  .rail .node { left: 0; right: auto; top: 26px; }
+  .body { padding-left: 26px; border-left: 2px solid var(--line); margin-left: 7px; padding-top: 12px; }
+  .rail::after { display: none; }
+  .summary { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .bar > i { transition: none; } html { scroll-behavior: auto; } }
+html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Python → Go · zero to hero · ~6 months · ~1–1.5 h/day</span>
+    <h1>Go Mastery Roadmap</h1>
+    <p class="lede">Five stages, from your very first Go program to knowing how the runtime works. Start with
+      <code>course/part1/00_start/README.md</code>. Each lesson explains one idea at a time, and is done when its
+      <code>go test</code> passes. Practice sets in <code>practice/</code> come after each part. Tick things off as you go;
+      your progress is saved in this browser.</p>
+    <div class="summary">
+      <div class="start">
+        <label for="start-date">Start date</label>
+        <input type="date" id="start-date">
+        <span id="week-now"></span>
+      </div>
+      <span class="count" id="overall-count">0 / 0</span>
+      <div class="bar" aria-hidden="true"><i id="overall-bar"></i></div>
+    </div>
+  </header>
+
+  <nav class="stages" id="stage-nav" aria-label="Stages"></nav>
+
+  <div class="timeline" id="timeline"></div>
+
+  <section class="ref" id="python-map">
+    <h2>Python habits, Go reality</h2>
+    <p class="goal">Keep this open during Stage 1. Most early Go bugs written by Python developers come from one of these rows.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Python</th><th>Go</th><th>Why it matters</th></tr></thead>
+        <tbody id="map-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="ref" id="llm-rules">
+    <h2>Using LLMs while you learn</h2>
+    <div class="rules">
+      <div class="rule"><b>Write lessons by hand</b><p>Turn AI autocomplete off for lessons and milestone projects. Look things up with <code>go doc</code>.</p></div>
+      <div class="rule"><b>Ask for explanations, not code</b><p>Paste a compiler error or a concept you don't get. Don't ask for the solution.</p></div>
+      <div class="rule"><b>Review after it passes</b><p>Ask "what would a senior Go dev change?", then compare with <code>_solutions/</code>.</p></div>
+      <div class="rule"><b>Read every generated line</b><p>From Stage 4 on, use AI freely, but ask: who stops this goroutine? Can it deadlock? Is the error wrapped?</p></div>
+    </div>
+  </section>
+
+  <section class="ref" id="rhythm">
+    <h2>Weekly rhythm</h2>
+    <div class="rules">
+      <div class="rule"><b>Mon–Thu</b><p>One hour: read the lesson notes, implement the TODOs, run the tests.</p></div>
+      <div class="rule"><b>Friday</b><p>Review the week's code against Effective Go and "100 Go Mistakes". Refactor.</p></div>
+      <div class="rule"><b>Weekend</b><p>Two to three hours on the stage's milestone project.</p></div>
+      <div class="rule"><b>Always</b><p>Keep a <code>TIL.md</code>. Every "Go does <em>that</em>?" moment goes in it.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Start: <code>course/part1/00_start/README.md</code></span>
+    <button type="button" id="reset">Reset progress</button>
+  </footer>
+</div>
+
+<script>
+const STAGES = [
+  {
+    id: "setup", name: "Setup", weeks: [0, 0], weekLabel: "Week 0",
+    goal: "Get the toolchain running and take the official tour.",
+    lessons: [
+      { id: "install", t: "Install Go", d: "brew install go, then go version" },
+      { id: "editor", t: "Editor set up", d: "VS Code with the official Go extension (installs gopls), or GoLand" },
+      { id: "tour", t: "A Tour of Go", d: "go.dev/tour. All of it, during week 1. It goes fast." }
+    ]
+  },
+  {
+    id: "stage1", name: "Foundations", weeks: [1, 4],
+    goal: "From zero to comfortable: variables, functions, loops, strings, slices, maps, structs, pointers, packages and tests.",
+    lessons: [
+      { id: "c00", t: "Lesson 00 · Your first program", d: "running Go, reading compiler errors, how exercises and tests work", cmd: "course/part1/00_start" },
+      { id: "c01", t: "Lesson 01 · Variables and types", d: ":= vs =, basic types, zero values, constants, conversions, Printf", cmd: "course/part1/01_variables" },
+      { id: "c02", t: "Lesson 02 · Functions", d: "parameters, several return values, functions as values, closures", cmd: "course/part1/02_functions" },
+      { id: "c03", t: "Lesson 03 · Control flow", d: "if, the one loop (for), switch", cmd: "course/part1/03_control_flow" },
+      { id: "c04", t: "Lesson 04 · Strings", d: "strings and strconv packages, your first err check, bytes vs runes", cmd: "course/part1/04_strings" },
+      { id: "c05", t: "Lesson 05 · Slices", d: "Go's lists: append, range, slicing shares memory, variadic functions", cmd: "course/part1/05_slices" },
+      { id: "c06", t: "Lesson 06 · Maps", d: "Go's dicts: comma ok, counting, sets, random order", cmd: "course/part1/06_maps" },
+      { id: "c07", t: "Lesson 07 · Structs", d: "your own types, and why structs are copied", cmd: "course/part1/07_structs" },
+      { id: "c08", t: "Lesson 08 · Pointers and methods", d: "& and *, value vs pointer receivers, nil", cmd: "course/part1/08_pointers_methods" },
+      { id: "c09", t: "Lesson 09 · Packages and tests", d: "exporting with capitals, creating a package, writing table-driven tests", cmd: "course/part1/09_packages_tests" },
+      { id: "l01", t: "Practice set 01 · Basics", d: "harder mixed exercises", cmd: "practice/01_basics" },
+      { id: "l02", t: "Practice set 02 · Slices & maps", d: "how slices really work: append aliasing, copy", cmd: "practice/02_slices_maps" },
+      { id: "l03", t: "Practice set 03 · Structs & methods", d: "embedding, useful zero values", cmd: "practice/03_structs_methods" }
+    ],
+    reading: [
+      ["A Tour of Go", "https://go.dev/tour/", "finish it this stage"],
+      ["Go by Example", "https://gobyexample.com/", "quick reference"],
+      ["Go Slices: usage and internals", "https://go.dev/blog/slices-intro", "required"]
+    ],
+    milestone: {
+      id: "m1", t: "gwc and ggrep: wc and grep clones",
+      spec: ["gwc -l -w -c file1 file2, reading stdin when no files are given",
+             "ggrep PATTERN files... with -i, -n, -r (walk directories with filepath.WalkDir)",
+             "Standard library only: flag, os, bufio, io, regexp",
+             "Table-driven tests; ship it as a single binary with go build"]
+    },
+    exit: {
+      q: "Explain, without running it, why this prints [1 2 99]:",
+      code: "a := make([]int, 2, 10); a[0], a[1] = 1, 2\nb := append(a, 3)\nc := append(a, 99)\nfmt.Println(b)",
+      a: "a has spare capacity, so both appends write into the same backing array at index 2. b and c are two views of that array; the second append overwrites the 3 with 99."
+    }
+  },
+  {
+    id: "stage2", name: "Think in Go", weeks: [5, 8],
+    goal: "Interfaces, errors and generics the Go way.",
+    lessons: [
+      { id: "c10", t: "Lesson 10 · Interfaces", d: "duck typing checked by the compiler, implicit interfaces, pointer receivers", cmd: "course/part2/10_interfaces" },
+      { id: "c11", t: "Lesson 11 · Interfaces in practice", d: "Stringer, any, type switches, io.Writer and io.Reader", cmd: "course/part2/11_interfaces_practice" },
+      { id: "c12", t: "Lesson 12 · Errors", d: "returning and handling errors, sentinel errors, errors.Is", cmd: "course/part2/12_errors" },
+      { id: "c13", t: "Lesson 13 · Custom errors and wrapping", d: "%w, custom error types, errors.As, the nil interface trap", cmd: "course/part2/13_error_types" },
+      { id: "c14", t: "Lesson 14 · defer, panic and recover", d: "reliable cleanup, what panics are for, recover at boundaries", cmd: "course/part2/14_defer_panic" },
+      { id: "c15", t: "Lesson 15 · Generics", d: "type parameters, constraints, generic types", cmd: "course/part2/15_generics" },
+      { id: "c16", t: "Lesson 16 · Iterators", d: "iter.Seq and yield: Go's generators", cmd: "course/part2/16_iterators" },
+      { id: "l04", t: "Practice set 04 · Interfaces", d: "implicit satisfaction, io.Reader/Writer, Stringer, type switches", cmd: "practice/04_interfaces" },
+      { id: "l05", t: "Practice set 05 · Errors", d: "sentinels, custom types, %w wrapping, errors.Is/As, defer/recover, the nil-interface trap", cmd: "practice/05_errors" },
+      { id: "l06", t: "Practice set 06 · Generics & iterators", d: "type parameters, constraints, ~int, generic Set, iter.Seq", cmd: "practice/06_generics" }
+    ],
+    reading: [
+      ["Effective Go", "https://go.dev/doc/effective_go", "read fully now, again in Stage 4"],
+      ["Go Code Review Comments", "https://go.dev/wiki/CodeReviewComments", "what reviewers will flag"],
+      ["Working with Errors in Go 1.13", "https://go.dev/blog/go1.13-errors", ""],
+      ["An Introduction to Generics", "https://go.dev/blog/intro-generics", ""],
+      ["Learning Go, 2nd ed. (Jon Bodner)", null, "book for Stages 2–3"]
+    ],
+    milestone: {
+      id: "m2", t: "Plugin-style file processor",
+      spec: ["Interface Processor { Process(io.Reader, io.Writer) error }",
+             "Implementations: UpperCase, CSVToJSON, Grep, Gzip (compress/gzip)",
+             "Chain them: proc -chain=csv2json,gzip < in.csv > out.json.gz",
+             "Errors wrapped so a failure reads like: chain step 2 (gzip): write: ..."]
+    },
+    exit: {
+      q: "Why is err != nil true here? When would you pick a generic function over an interface?",
+      code: "var p *MyErr = nil\nvar err error = p\nfmt.Println(err != nil) // true",
+      a: "An interface value is a (type, value) pair. err holds (*MyErr, nil): the type is set, so the interface isn't nil. Use generics when the algorithm is the same for many element types (containers, Map, Sum); use interfaces when different types have different behaviour behind the same methods."
+    }
+  },
+  {
+    id: "stage3", name: "Concurrency", weeks: [9, 13],
+    goal: "Go's main strength, and where strong concepts matter most. Give it real time.",
+    lessons: [
+      { id: "c17", t: "Lesson 17 · Goroutines and WaitGroup", d: "running things at the same time, collecting results safely", cmd: "course/part3/17_goroutines", race: true },
+      { id: "c18", t: "Lesson 18 · Channels", d: "send, receive, blocking, closing, deadlocks", cmd: "course/part3/18_channels", race: true },
+      { id: "c19", t: "Lesson 19 · select and timeouts", d: "several channels, timeouts, non-blocking ops, done channels", cmd: "course/part3/19_select", race: true },
+      { id: "c20", t: "Lesson 20 · Pipelines and worker pools", d: "pipelines, fan-in, worker pools, semaphores", cmd: "course/part3/20_patterns", race: true },
+      { id: "c21", t: "Lesson 21 · Mutexes and the race detector", d: "data races, Mutex, RWMutex, atomics, Once", cmd: "course/part3/21_mutex", race: true },
+      { id: "c22", t: "Lesson 22 · Context", d: "cancellation, timeouts, cancel the rest on first error", cmd: "course/part3/22_context", race: true },
+      { id: "l07", t: "Practice set 07 · Goroutines & channels", d: "pipelines, fan-in, worker pools, select, timeouts", cmd: "practice/07_concurrency", race: true },
+      { id: "l08", t: "Practice set 08 · sync & context", d: "Mutex, Once, cancellation, a mini errgroup", cmd: "practice/08_sync_context", race: true },
+      { id: "mistakes", t: "Read \"100 Go Mistakes\"", d: "start it now that you know the basics; reread in Stage 5" }
+    ],
+    reading: [
+      ["Concurrency is not Parallelism (Rob Pike)", "https://go.dev/blog/waza-talk", "watch"],
+      ["Pipelines and cancellation", "https://go.dev/blog/pipelines", ""],
+      ["Go Concurrency Patterns: Context", "https://go.dev/blog/context", ""],
+      ["The Go Memory Model", "https://go.dev/ref/mem", "hard; read now, again in Stage 5"],
+      ["Concurrency in Go (Katherine Cox-Buday)", null, "chapters 3–4 at minimum"]
+    ],
+    milestone: {
+      id: "m3", t: "Concurrent web crawler",
+      spec: ["crawl -depth=2 -workers=10 https://example.com",
+             "Bounded concurrency, a dedupe set protected properly, a global context timeout",
+             "Graceful Ctrl+C with signal.NotifyContext; per-host rate limiting",
+             "Passes go test -race and leaks no goroutines (check runtime.NumGoroutine in a test)"]
+    },
+    exit: {
+      q: "On a whiteboard: a worker pool that runs N jobs on M workers, keeps results in input order, and stops every worker on the first error or when the context is cancelled.",
+      a: "Jobs channel of indices, M workers writing results[i], a WaitGroup, sync.Once to record the first error and call cancel(), and every worker selecting on ctx.Done(). Lesson 08's FetchAll is the core of it."
+    }
+  },
+  {
+    id: "stage4", name: "Real services", weeks: [14, 19],
+    goal: "Production-shaped Go: HTTP, JSON, databases, testing, tooling, deployment.",
+    lessons: [
+      { id: "c23", t: "Lesson 23 · Files and I/O", d: "read and write files, line by line, walk folders", cmd: "course/part4/23_files" },
+      { id: "c24", t: "Lesson 24 · Command-line tools", d: "flags, stdin/stdout/stderr, exit codes: build a wc clone", cmd: "course/part4/24_cli" },
+      { id: "c25", t: "Lesson 25 · JSON", d: "struct tags, nested and unknown JSON, streaming", cmd: "course/part4/25_json" },
+      { id: "c26", t: "Lesson 26 · HTTP servers", d: "routes, JSON APIs, status codes, httptest: build a notes API", cmd: "course/part4/26_http_server", race: true },
+      { id: "c27", t: "Lesson 27 · HTTP clients and middleware", d: "timeouts, calling APIs safely, middleware, log/slog", cmd: "course/part4/27_http_client", race: true },
+      { id: "c28", t: "Lesson 28 · Databases", d: "database/sql with SQLite, placeholders, transactions", cmd: "course/part4/28_database", race: true },
+      { id: "c29", t: "Lesson 29 · Testing in depth", d: "you write the tests: fakes, benchmarks, fuzzing, examples", cmd: "course/part4/29_testing" },
+      { id: "c30", t: "Lesson 30 · Shipping", d: "config, go:embed, versions, graceful shutdown, Docker", cmd: "course/part4/30_shipping", race: true },
+      { id: "l09", t: "Practice set 09 · HTTP & JSON", d: "net/http routing, struct tags, httptest, a mutex-guarded store", cmd: "practice/09_http_json", race: true }
+    ],
+    reading: [
+      ["Let's Go and Let's Go Further (Alex Edwards)", null, "the best practical web-service books for Go"],
+      ["Organizing a Go module", "https://go.dev/doc/modules/layout", ""],
+      ["Practical Go (Dave Cheney)", "https://dave.cheney.net/practical-go/presentations/qcon-china.html", ""]
+    ],
+    milestone: {
+      id: "m4", t: "URL shortener with link analytics (portfolio piece)",
+      spec: ["REST API: create, redirect, stats. Postgres via pgx/sqlc, with migrations",
+             "Middleware: slog logging, recovery, per-IP rate limiting, API-key auth",
+             "Click events through a buffered channel to a background batch writer",
+             "Graceful shutdown that drains the channel; integration tests on real Postgres",
+             "CI on GitHub Actions, a Docker image, /metrics for Prometheus and a pprof endpoint"]
+    },
+    exit: {
+      q: "Can you build a CRUD service from an empty folder with no LLM, and explain every line an LLM would generate for the same task?",
+      a: "If yes, you're ready for Stage 5. If any part feels shaky (routing, JSON decoding, the connection pool, shutdown order), redo that part by hand first."
+    }
+  },
+  {
+    id: "stage5", name: "Under the hood", weeks: [20, 26],
+    goal: "Know why Go behaves the way it does, so you can debug and optimize anything.",
+    lessons: [
+      { id: "c31", t: "Lesson 31 · Memory and escape analysis", d: "stack vs heap, -gcflags=-m, allocating less, struct padding", cmd: "course/part5/31_memory" },
+      { id: "c32", t: "Lesson 32 · Profiling and optimizing", d: "benchstat, pprof, flame graphs: make slow code fast", cmd: "course/part5/32_profiling" },
+      { id: "c33", t: "Lesson 33 · Scheduler, leaks, deadlocks", d: "G-M-P, GOMAXPROCS, goroutine leaks, lock ordering", cmd: "course/part5/33_scheduler", race: true },
+      { id: "c34", t: "Lesson 34 · Memory model and advanced sync", d: "happens-before, atomics, singleflight, errgroup, sync.Cond", cmd: "course/part5/34_memory_model", race: true },
+      { id: "c35", t: "Lesson 35 · Reflection and struct tags", d: "reflect, custom tags, how encoding/json works", cmd: "course/part5/35_reflection" },
+      { id: "c36", t: "Lesson 36 · Idioms from the standard library", d: "reading stdlib source, composition, functional options", cmd: "course/part5/36_stdlib_idioms" },
+      { id: "gc", t: "GC guide", d: "read go.dev/doc/gc-guide; try GOGC and GOMEMLIMIT on your own service" },
+      { id: "stdlib", t: "Keep reading the standard library", d: "net/http/server.go, sync/mutex.go, context/context.go, bufio" }
+    ],
+    reading: [
+      ["100 Go Mistakes and How to Avoid Them (Teiva Harsanyi)", null, "reread here"],
+      ["A Guide to the Go Garbage Collector", "https://go.dev/doc/gc-guide", ""],
+      ["Diagnostics", "https://go.dev/doc/diagnostics", ""],
+      ["GopherCon talks on the scheduler, GC and performance", null, "YouTube"]
+    ],
+    milestone: {
+      id: "m5", t: "Pick one or more",
+      spec: ["Persistent key-value store: TCP server (RESP so redis-cli works), write-ahead log, crash recovery, TTLs",
+             "Distributed task queue over gRPC: retries with backoff, visibility timeouts, at-least-once delivery",
+             "Raft from the paper (the MIT 6.5840 labs are in Go)",
+             "Open-source contributions to Go projects you use"]
+    },
+    exit: {
+      q: "Take a slow endpoint, profile it, find the hot path, reduce allocations, and prove the gain with benchstat.",
+      a: "That loop (measure, hypothesize, change one thing, measure again) is what separates an expert from someone who knows the syntax."
+    }
+  }
+];
+
+const MAP = [
+  ["Dynamic and duck typing", "Static types; interfaces satisfied implicitly", "Duck typing, checked by the compiler"],
+  ["None", "Zero values: 0, \"\", false, nil", "Design structs so the zero value is useful"],
+  ["try / except", "Errors are values: if err != nil", "Every failure path is visible; panic is for bugs"],
+  ["list", "Slice: pointer, len, cap over an array", "append can mutate a shared array, the #1 trap"],
+  ["dict", "map[K]V with random iteration order", "Never rely on map order"],
+  ["Classes and inheritance", "Structs, methods, embedding", "Composition and small interfaces instead"],
+  ["self is a reference", "Explicit receiver, value or pointer", "A value receiver mutates a copy"],
+  ["Objects shared by reference", "Everything passed by value", "Passing a struct copies it; use pointers to share"],
+  ["str of code points", "string of UTF-8 bytes; rune is a code point", "len(\"世\") is 3"],
+  ["asyncio, threads, GIL", "Goroutines and channels, truly parallel", "Real data races exist; use -race"],
+  ["with open(...)", "defer f.Close()", "Runs when the function returns"],
+  ["pip, venv, requirements.txt", "go mod and one go.mod", "Reproducible builds, no virtualenv"],
+  ["pytest", "go test, table-driven tests", "Benchmarks, fuzzing and the race detector built in"],
+  ["black, ruff", "gofmt, go vet, staticcheck", "Formatting is not up for debate"],
+  ["_private by convention", "Lowercase = unexported, enforced", "Visibility is per package"],
+  ["@decorator", "Higher-order funcs, HTTP middleware", "Same idea, explicit wrapping"]
+];
+
+const KEY = "go-roadmap-v1";
+const DEFAULT_DONE = { install: true };
+let state = { done: { ...DEFAULT_DONE }, start: null };
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (saved && typeof saved === "object") state = { done: saved.done || {}, start: saved.start || null };
+} catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const codeify = s => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>");
+
+function itemsOf(st) {
+  const ids = st.lessons.map(l => l.id);
+  if (st.milestone) ids.push(st.milestone.id);
+  return ids;
+}
+
+function checkItem(id, title, desc) {
+  return `<li><label><input type="checkbox" data-id="${id}" id="cb-${id}"${state.done[id] ? " checked" : ""}>
+    <span><span class="t">${title}</span>${desc ? `<span class="d">${desc}</span>` : ""}</span></label></li>`;
+}
+
+function render() {
+  const tl = document.getElementById("timeline");
+  tl.innerHTML = STAGES.map((st, i) => {
+    const weekLabel = st.weekLabel || `Weeks ${st.weeks[0]}–${st.weeks[1]}`;
+    const lessons = st.lessons.map(l => {
+      const cmd = l.cmd ? `<code>cd ${l.cmd} &amp;&amp; go test${l.race ? " -race" : ""} -v</code>` : "";
+      return checkItem(l.id, esc(l.t), [esc(l.d), cmd].filter(Boolean).join("<br>"));
+    }).join("");
+    const reading = st.reading ? `<div class="block"><h3>Reading</h3><ul class="reading">${st.reading.map(([t, u, why]) =>
+      `<li>${u ? `<a href="${u}" target="_blank" rel="noopener">${esc(t)}</a>` : esc(t)}${why ? ` <span class="why">· ${esc(why)}</span>` : ""}</li>`).join("")}</ul></div>` : "";
+    const ms = st.milestone ? `<div class="milestone"><h3>Milestone project</h3>
+      <ul class="checks">${checkItem(st.milestone.id, esc(st.milestone.t), "")}</ul>
+      <ul class="spec">${st.milestone.spec.map(s => `<li>${esc(s)}</li>`).join("")}</ul></div>` : "";
+    const exit = st.exit ? `<details class="exit"><summary>Exit check</summary>
+      <p class="q">${esc(st.exit.q)}</p>${st.exit.code ? `<pre>${esc(st.exit.code)}</pre>` : ""}
+      <details><summary class="mono">show answer</summary><p class="a">${esc(st.exit.a)}</p></details></details>` : "";
+    return `<article class="stage" id="${st.id}">
+      <div class="rail"><div class="weeks">${weekLabel}</div><div class="dates" data-dates="${i}"></div><span class="node"></span></div>
+      <div class="body">
+        <div class="stage-head"><div class="row"><h2>${i === 0 ? "" : `Stage ${i} · `}${esc(st.name)}</h2><span class="status" data-status="${st.id}"></span></div>
+          <p class="goal">${esc(st.goal)}</p></div>
+        <div class="block"><h3>${i === 0 ? "Checklist" : i >= 4 ? "Lessons and topics" : "Lessons"}</h3><ul class="checks">${lessons}</ul></div>
+        ${reading}${ms}${exit}
+      </div></article>`;
+  }).join("");
+
+  document.getElementById("stage-nav").innerHTML = STAGES.map((st, i) =>
+    `<a href="#${st.id}" data-nav="${st.id}"><span class="dot"></span>${i === 0 ? "Setup" : `${i} · ${esc(st.name)}`}</a>`).join("");
+
+  document.getElementById("map-rows").innerHTML = MAP.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("");
+}
+
+function fmt(d) { return d.toLocaleDateString(undefined, { month: "short", day: "numeric" }); }
+
+function update() {
+  let total = 0, done = 0;
+  STAGES.forEach(st => {
+    const ids = itemsOf(st);
+    const n = ids.filter(id => state.done[id]).length;
+    total += ids.length; done += n;
+    const s = n === ids.length ? "ok" : n > 0 ? "run" : "pending";
+    const label = s === "ok" ? "ok" : s === "run" ? "RUN" : "----";
+    document.getElementById(st.id).dataset.state = s;
+    document.querySelector(`[data-nav="${st.id}"]`).dataset.state = s;
+    document.querySelector(`[data-status="${st.id}"]`).innerHTML = `<span class="tag ${s}">${label}</span>${n}/${ids.length}`;
+  });
+  document.getElementById("overall-count").textContent = `${done} / ${total} done`;
+  document.getElementById("overall-bar").style.width = `${total ? (done / total) * 100 : 0}%`;
+
+  const startInput = document.getElementById("start-date");
+  const start = state.start ? new Date(state.start + "T00:00:00") : null;
+  startInput.value = state.start || "";
+  STAGES.forEach((st, i) => {
+    const el = document.querySelector(`[data-dates="${i}"]`);
+    if (!start || isNaN(start)) { el.textContent = ""; return; }
+    const from = new Date(start); from.setDate(from.getDate() + Math.max(st.weeks[0] - 1, 0) * 7);
+    const to = new Date(start); to.setDate(to.getDate() + Math.max(st.weeks[1], 1) * 7 - 1);
+    el.textContent = st.weeks[1] === 0 ? fmt(start) : `${fmt(from)} – ${fmt(to)}`;
+  });
+  const wn = document.getElementById("week-now");
+  if (start && !isNaN(start)) {
+    const week = Math.floor((Date.now() - start) / (7 * 864e5)) + 1;
+    wn.textContent = week < 1 ? "Starts soon" : week > 26 ? "Past week 26: keep building" : `You're in week ${week}`;
+  } else wn.textContent = "Set it to see target dates for each stage";
+}
+
+render();
+update();
+
+document.getElementById("timeline").addEventListener("change", e => {
+  const id = e.target.dataset && e.target.dataset.id;
+  if (!id) return;
+  if (e.target.checked) state.done[id] = true; else delete state.done[id];
+  save(); update();
+});
+document.getElementById("start-date").addEventListener("change", e => {
+  state.start = e.target.value || null; save(); update();
+});
+document.getElementById("reset").addEventListener("click", e => {
+  const b = e.currentTarget;
+  if (b.dataset.armed) {
+    state = { done: { ...DEFAULT_DONE }, start: state.start }; save(); render(); update();
+    b.textContent = "Progress reset"; delete b.dataset.armed;
+    setTimeout(() => { b.textContent = "Reset progress"; }, 1500);
+  } else {
+    b.dataset.armed = "1"; b.textContent = "Click again to clear all ticks";
+    setTimeout(() => { if (b.dataset.armed) { delete b.dataset.armed; b.textContent = "Reset progress"; } }, 3000);
+  }
+});
+</script>
+</body>
+</html>

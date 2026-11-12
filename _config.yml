@@ -1,0 +1,10 @@
+# GitHub Pages settings for the tutorial website.
+# Folders starting with _ (like _solutions) are left out of the website, but stay in the repository.
+title: "Learning Go: zero to hero"
+description: "A step-by-step Go course for Python developers, from your first program to expert topics."
+theme: jekyll-theme-cayman
+relative_links:
+  enabled: true
+exclude:
+  - go.mod
+  - go.sum

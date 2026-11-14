@@ -199,7 +199,8 @@ inc := Op(func(x int) int { return x + 1 })
 fmt.Println(double.Then(inc)(5), inc.Then(double)(5))
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `11 12`. A function type with a method (section 3) lets you chain behaviour: `double.Then(inc)` doubles
 then adds one (5 → 10 → 11); `inc.Then(double)` adds then doubles (5 → 6 → 12).
@@ -249,3 +250,5 @@ expert from here is about **building real things** and **reading real code**. In
 
 And now that your concepts are strong, use LLMs as the powerful assistants they are. You'll be able to
 tell when their Go is idiomatic, when it leaks a goroutine, and when it's simply wrong.
+
+**You've finished the course. Next → the expert milestone projects in [roadmap.html](../../../roadmap.html)**

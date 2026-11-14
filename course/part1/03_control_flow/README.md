@@ -46,7 +46,7 @@ Differences to notice:
 | Python | Go |
 |---|---|
 | `and` | `&&` |
-| `or` | `\|\|` |
+| `or` | <code>&#124;&#124;</code> |
 | `not x` | `!x` |
 | `==`, `!=`, `<`, `>=` ... | the same |
 
@@ -179,7 +179,8 @@ for total > 1 {
 fmt.Println(total, count)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `1 3`. First loop: total = 1+2+3+4 = 10. Second loop halves it with integer division: 10 → 5 → 2 → 1,
 which takes 3 rounds.
@@ -242,7 +243,8 @@ for i := range 4 {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `zero odd even odd`. (`fmt.Print` doesn't add a newline.) For i = 0 the first case matches and the
 others are skipped, even though 0 is also even.

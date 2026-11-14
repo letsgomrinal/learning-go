@@ -178,7 +178,8 @@ v, ok := <-ch
 fmt.Println(sum, v, ok)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `30 0 false`. The buffer holds 0, 10 and 20, and `range` still receives them after `close`. Once
 they're used up, a receive gives the zero value `0` and `ok == false`.

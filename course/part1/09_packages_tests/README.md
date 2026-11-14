@@ -311,3 +311,5 @@ You've finished the foundations. Before Part 2:
    which is a skill in itself.
 
 Then Part 2: interfaces, errors, generics.
+
+**Next → [Part 2, Lesson 10: Interfaces](../../part2/10_interfaces/README.md)**

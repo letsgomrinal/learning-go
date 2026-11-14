@@ -95,7 +95,8 @@ fmt.Println(errors.Is(a, base), errors.Is(b, base), errors.Is(c, base))
 fmt.Println(b)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 ```
 true false true

@@ -176,7 +176,8 @@ for i := range t.NumField() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 ```
 Value float64 celsius true

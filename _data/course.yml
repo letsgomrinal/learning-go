@@ -1,0 +1,204 @@
+# Lesson order for the website: sidebar, prev/next and progress tracking.
+# Ids match roadmap.html so progress is shared between the two.
+parts:
+  - id: part1
+    num: 1
+    name: "Foundations"
+  - id: part2
+    num: 2
+    name: "The Go way"
+  - id: part3
+    num: 3
+    name: "Concurrency"
+  - id: part4
+    num: 4
+    name: "Building real programs"
+  - id: part5
+    num: 5
+    name: "Expert topics"
+lessons:
+  - id: c00
+    num: "00"
+    title: "Your first program"
+    part: part1
+    url: /course/part1/00_start/
+  - id: c01
+    num: "01"
+    title: "Variables and types"
+    part: part1
+    url: /course/part1/01_variables/
+  - id: c02
+    num: "02"
+    title: "Functions"
+    part: part1
+    url: /course/part1/02_functions/
+  - id: c03
+    num: "03"
+    title: "Control flow"
+    part: part1
+    url: /course/part1/03_control_flow/
+  - id: c04
+    num: "04"
+    title: "Strings"
+    part: part1
+    url: /course/part1/04_strings/
+  - id: c05
+    num: "05"
+    title: "Slices"
+    part: part1
+    url: /course/part1/05_slices/
+  - id: c06
+    num: "06"
+    title: "Maps"
+    part: part1
+    url: /course/part1/06_maps/
+  - id: c07
+    num: "07"
+    title: "Structs"
+    part: part1
+    url: /course/part1/07_structs/
+  - id: c08
+    num: "08"
+    title: "Pointers and methods"
+    part: part1
+    url: /course/part1/08_pointers_methods/
+  - id: c09
+    num: "09"
+    title: "Packages and tests"
+    part: part1
+    url: /course/part1/09_packages_tests/
+  - id: c10
+    num: "10"
+    title: "Interfaces"
+    part: part2
+    url: /course/part2/10_interfaces/
+  - id: c11
+    num: "11"
+    title: "Interfaces in practice"
+    part: part2
+    url: /course/part2/11_interfaces_practice/
+  - id: c12
+    num: "12"
+    title: "Errors"
+    part: part2
+    url: /course/part2/12_errors/
+  - id: c13
+    num: "13"
+    title: "Custom errors and wrapping"
+    part: part2
+    url: /course/part2/13_error_types/
+  - id: c14
+    num: "14"
+    title: "defer, panic and recover"
+    part: part2
+    url: /course/part2/14_defer_panic/
+  - id: c15
+    num: "15"
+    title: "Generics"
+    part: part2
+    url: /course/part2/15_generics/
+  - id: c16
+    num: "16"
+    title: "Iterators"
+    part: part2
+    url: /course/part2/16_iterators/
+  - id: c17
+    num: "17"
+    title: "Goroutines and WaitGroup"
+    part: part3
+    url: /course/part3/17_goroutines/
+  - id: c18
+    num: "18"
+    title: "Channels"
+    part: part3
+    url: /course/part3/18_channels/
+  - id: c19
+    num: "19"
+    title: "select and timeouts"
+    part: part3
+    url: /course/part3/19_select/
+  - id: c20
+    num: "20"
+    title: "Pipelines and worker pools"
+    part: part3
+    url: /course/part3/20_patterns/
+  - id: c21
+    num: "21"
+    title: "Mutexes and the race detector"
+    part: part3
+    url: /course/part3/21_mutex/
+  - id: c22
+    num: "22"
+    title: "Context"
+    part: part3
+    url: /course/part3/22_context/
+  - id: c23
+    num: "23"
+    title: "Files and I/O"
+    part: part4
+    url: /course/part4/23_files/
+  - id: c24
+    num: "24"
+    title: "Command-line tools"
+    part: part4
+    url: /course/part4/24_cli/
+  - id: c25
+    num: "25"
+    title: "JSON"
+    part: part4
+    url: /course/part4/25_json/
+  - id: c26
+    num: "26"
+    title: "HTTP servers"
+    part: part4
+    url: /course/part4/26_http_server/
+  - id: c27
+    num: "27"
+    title: "HTTP clients and middleware"
+    part: part4
+    url: /course/part4/27_http_client/
+  - id: c28
+    num: "28"
+    title: "Databases"
+    part: part4
+    url: /course/part4/28_database/
+  - id: c29
+    num: "29"
+    title: "Testing in depth"
+    part: part4
+    url: /course/part4/29_testing/
+  - id: c30
+    num: "30"
+    title: "Shipping"
+    part: part4
+    url: /course/part4/30_shipping/
+  - id: c31
+    num: "31"
+    title: "Memory, allocations and escape analysis"
+    part: part5
+    url: /course/part5/31_memory/
+  - id: c32
+    num: "32"
+    title: "Profiling and optimizing"
+    part: part5
+    url: /course/part5/32_profiling/
+  - id: c33
+    num: "33"
+    title: "The scheduler, leaks and deadlocks"
+    part: part5
+    url: /course/part5/33_scheduler/
+  - id: c34
+    num: "34"
+    title: "The memory model and advanced sync"
+    part: part5
+    url: /course/part5/34_memory_model/
+  - id: c35
+    num: "35"
+    title: "Reflection and struct tags"
+    part: part5
+    url: /course/part5/35_reflection/
+  - id: c36
+    num: "36"
+    title: "Idioms from the standard library"
+    part: part5
+    url: /course/part5/36_stdlib_idioms/

@@ -217,7 +217,8 @@ for v := range results {
 fmt.Println(sum)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `60`. The values 10, 20 and 30 arrive in some order, but the sum is always 60. The "wait then close
 in a goroutine" trick makes the `range` end once all three have sent.

@@ -232,7 +232,8 @@ data, _ := os.ReadFile(p)
 fmt.Printf("%q\n", string(data))
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `"two\n"`. `WriteFile` replaces the whole file each time. To keep `one`, you'd append with
 `os.OpenFile(..., os.O_APPEND|...)`.

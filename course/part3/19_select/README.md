@@ -205,7 +205,8 @@ for i := range 3 {
 fmt.Println(<-ch)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `sent 0; full 1; full 2; 0`. The buffer has room for one value. `0` fits; `1` and `2` find it full,
 so `default` runs. Then we receive the `0`.

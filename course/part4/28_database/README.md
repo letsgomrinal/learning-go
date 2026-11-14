@@ -234,7 +234,8 @@ fmt.Println(n)
 
 (There's no todo with id 999.)
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `0`. An `UPDATE` that matches nothing is **not** an error in SQL. It just changes zero rows. If "no such
 todo" matters, check `RowsAffected()` yourself and return `ErrNotFound`. You'll do that in Ex5.

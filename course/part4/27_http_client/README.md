@@ -240,7 +240,8 @@ h := mw("A")(mw("B")(final))
 h.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest("GET", "/", nil))
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `A>B>handler <B <A `. The outer middleware (A) runs first on the way in and last on the way out, like
 nested function calls.

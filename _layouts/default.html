@@ -1,0 +1,144 @@
+<!doctype html>
+{%- assign lessons = site.data.course.lessons -%}
+{%- assign parts = site.data.course.parts -%}
+{%- assign total = lessons | size -%}
+{%- assign cur = nil -%}
+{%- for l in lessons -%}
+  {%- if l.url == page.url -%}
+    {%- assign cur = l -%}
+    {%- assign cur_i = forloop.index0 -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if cur -%}
+  {%- assign prev_i = cur_i | minus: 1 -%}
+  {%- assign next_i = cur_i | plus: 1 -%}
+  {%- if cur_i > 0 -%}{%- assign prev = lessons[prev_i] -%}{%- endif -%}
+  {%- assign next = lessons[next_i] -%}
+  {%- for p in parts -%}{%- if p.id == cur.part -%}{%- assign cur_part = p -%}{%- endif -%}{%- endfor -%}
+{%- endif -%}
+{%- assign is_home = false -%}
+{%- if page.url == "/" or page.url == "/index.html" -%}{%- assign is_home = true -%}{%- endif -%}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+{% seo %}
+<script>
+  /* Apply the saved theme before first paint so there is no flash. */
+  try { var t = localStorage.getItem("go-course-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="{{ '/assets/css/course.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+</head>
+<body{% if cur %} data-lesson="{{ cur.id }}"{% endif %}{% if is_home %} data-home{% endif %}>
+<a class="skip" href="#content">Skip to the lesson</a>
+<div class="read-progress" aria-hidden="true"><i></i></div>
+
+<header class="topbar">
+  <button class="icon-btn menu-btn" type="button" aria-label="Open the course menu" aria-controls="sidebar" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <a class="brand" href="{{ '/' | relative_url }}"><span class="brand-mark" aria-hidden="true">Go</span><span class="brand-name">Learning Go</span></a>
+  <div class="topbar-right">
+    <a class="progress-pill" href="{{ '/' | relative_url }}#your-progress" title="Your progress, saved in this browser">
+      <span class="ring" aria-hidden="true"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" class="ring-bg"/><circle cx="18" cy="18" r="15" class="ring-fg" pathLength="100"/></svg></span>
+      <span><b data-count-done>0</b>/<span>{{ total }}</span><span class="pill-label"> lessons</span></span>
+    </a>
+    <a class="topbar-link" href="{{ '/roadmap.html' | relative_url }}">Roadmap</a>
+    <button class="icon-btn theme-btn" type="button" aria-label="Switch between light and dark theme">
+      <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Course lessons">
+    <div class="sidebar-inner">
+      {%- for p in parts %}
+      <details class="nav-part" data-part="{{ p.id }}"{% if cur == nil or cur.part == p.id %} open{% endif %}>
+        <summary><span class="nav-part-num">Part {{ p.num }}</span> <span class="nav-part-name">{{ p.name }}</span> <span class="nav-part-count" data-part-count="{{ p.id }}"></span></summary>
+        <ol>
+          {%- for l in lessons %}{% if l.part == p.id %}
+          <li><a href="{{ l.url | relative_url }}" data-nav-lesson="{{ l.id }}"{% if cur and l.id == cur.id %} aria-current="page"{% endif %}>
+            <span class="status-dot" aria-hidden="true"></span><span class="nav-num">{{ l.num }}</span><span class="nav-title">{{ l.title }}</span><span class="sr-only" data-sr-status></span></a></li>
+          {%- endif %}{% endfor %}
+        </ol>
+      </details>
+      {%- endfor %}
+      <div class="nav-extra">
+        <a href="{{ '/roadmap.html' | relative_url }}">Roadmap, practice sets and milestone projects →</a>
+      </div>
+    </div>
+  </nav>
+  <div class="scrim" hidden></div>
+
+  <main id="content" class="content">
+    {%- if cur %}
+    <div class="lesson-meta">
+      <span class="crumb">Part {{ cur_part.num }} · {{ cur_part.name }}</span>
+      <span class="crumb-sep" aria-hidden="true">/</span>
+      <span class="crumb">Step {{ cur_i | plus: 1 }} of {{ total }}</span>
+      <span class="done-badge" hidden>✓ Completed</span>
+    </div>
+    {%- endif %}
+    {%- if is_home %}
+    <section class="home-progress" id="your-progress" aria-label="Your progress">
+      <div class="hp-text">
+        <span class="eyebrow">Your progress</span>
+        <p class="hp-headline" data-hp-headline>Start with lesson 00. It takes about 45 minutes.</p>
+        <div class="bar" aria-hidden="true"><i data-hp-bar></i></div>
+        <p class="hp-sub"><span data-count-done>0</span> of {{ total }} lessons done · saved in this browser</p>
+      </div>
+      <a class="btn btn-primary" data-hp-continue href="{{ lessons[0].url | relative_url }}">Start lesson 00 →</a>
+    </section>
+    {%- endif %}
+
+    <article class="prose">
+      {{ content }}
+    </article>
+
+    {%- if cur %}
+    <section class="finish" aria-labelledby="finish-title">
+      <div class="finish-main">
+        <h2 id="finish-title" class="finish-title">Finished lesson {{ cur.num }}?</h2>
+        <p class="finish-text">A lesson is done when <code>go test -v</code> passes in its folder and you can tick every item in the checklist above.</p>
+        <p class="finish-checks" data-check-summary hidden></p>
+      </div>
+      <button class="btn btn-primary complete-btn" type="button" aria-pressed="false">Mark lesson complete</button>
+    </section>
+
+    <nav class="pager" aria-label="Previous and next lesson">
+      {%- if prev %}
+      <a class="pager-link prev" href="{{ prev.url | relative_url }}"><span class="pager-dir">← Previous</span><span class="pager-title">{{ prev.num }} · {{ prev.title }}</span></a>
+      {%- else %}<span></span>{%- endif %}
+      {%- if next %}
+      <a class="pager-link next" href="{{ next.url | relative_url }}"><span class="pager-dir">Next →</span><span class="pager-title">{{ next.num }} · {{ next.title }}</span></a>
+      {%- else %}
+      <a class="pager-link next" href="{{ '/roadmap.html' | relative_url }}"><span class="pager-dir">You made it →</span><span class="pager-title">Milestone projects in the roadmap</span></a>
+      {%- endif %}
+    </nav>
+    {%- endif %}
+
+    <footer class="site-footer">
+      <span>Learning Go: zero to hero · <a href="{{ site.github.repository_url | default: 'https://github.com/letsgomrinal/learning-go' }}">Source on GitHub</a></span>
+      <button type="button" class="link-btn" data-reset>Reset my progress</button>
+    </footer>
+  </main>
+
+  {%- if cur %}
+  <aside class="toc" aria-label="On this page">
+    <div class="toc-inner">
+      <p class="toc-title">On this page</p>
+      <ol class="toc-list"></ol>
+    </div>
+  </aside>
+  {%- endif %}
+</div>
+
+<script>window.COURSE = { total: {{ total }}, lessons: [{% for l in lessons %}{ id: "{{ l.id }}", num: "{{ l.num }}", title: {{ l.title | jsonify }}, url: "{{ l.url | relative_url }}" }{% unless forloop.last %},{% endunless %}{% endfor %}] };</script>
+<script src="{{ '/assets/js/course.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+</body>
+</html>

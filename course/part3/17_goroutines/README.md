@@ -190,7 +190,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `[A B C]`. The goroutines **finish** in the order c, b, a (because of the different sleeps), but each
 writes to its own index, so the slice is in the original order. That's a useful property of the

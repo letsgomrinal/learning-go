@@ -161,7 +161,8 @@ delete(m, "x")
 fmt.Println(len(m), m["y"], v, ok)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `1 5 0 false`. `m["y"] += 5` starts from the zero value 0. Looking up `"z"` gives 0 and `false`
 (and doesn't add it). After deleting `"x"`, only `"y"` is left.

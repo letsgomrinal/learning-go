@@ -229,7 +229,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `7 12 84`. First call: 3+4=7 and 3×4=12. Second call: calc(7, 12), and we keep only the product, 84.
 </details>

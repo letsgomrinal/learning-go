@@ -104,7 +104,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `2 1`. `swap` receives the addresses of `x` and `y`, and swaps the values stored there.
 </details>
@@ -253,7 +254,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `2`. Only the pointer-receiver calls change `c`. (Also notice `var c Counter` works without
 any constructor: the zero value `{n: 0}` is ready to use.)

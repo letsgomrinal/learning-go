@@ -253,7 +253,8 @@ for _, c := range cases {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 ```
 200 hi ana

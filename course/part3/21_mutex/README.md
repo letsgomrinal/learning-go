@@ -274,7 +274,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `0`. With a value receiver, `Add` works on a **copy** of the box (lesson 08), mutex included, so the
 original never changes. `go vet` reports `Add passes lock by value`. Use `func (b *Box) Add()`.

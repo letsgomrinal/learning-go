@@ -208,7 +208,8 @@ cancelParent()
 fmt.Println(child.Err(), parent.Err())
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `context canceled context canceled`. The child had an hour left on its own timeout, but cancelling
 the parent cancels the child immediately. Its reason is "canceled", not "deadline exceeded".
@@ -268,3 +269,5 @@ consolidating before moving on:
    mistakes will make sense now.
 
 Then Part 4: building real programs (files, HTTP servers, JSON, databases).
+
+**Next → [Part 4, Lesson 23: Files and I/O](../../part4/23_files/README.md)**

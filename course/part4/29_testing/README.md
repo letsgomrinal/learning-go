@@ -253,7 +253,8 @@ func TestCases(t *testing.T) {
 
 With `go test -v`, which subtests pass?
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `TestCases/1` and `TestCases/3` pass; `TestCases/2` fails. `t.Fatalf` only stops the subtest it's in,
 so case 3 still runs. (The parent `TestCases` is reported as failed because a subtest failed.)

@@ -195,7 +195,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 ```
 1

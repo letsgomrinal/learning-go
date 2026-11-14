@@ -156,7 +156,8 @@ for _, v := range values {
 fmt.Println(total)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `7`. Only `3` and `4` are ints. `2.5` is a `float64`, so `v.(int)` gives `ok == false` for it.
 </details>

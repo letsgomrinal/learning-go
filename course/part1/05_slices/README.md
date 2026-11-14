@@ -158,7 +158,8 @@ for i, w := range words {
 fmt.Println(total)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `5`. We skip index 1 ("is"), so it adds len("go") + len("fun") = 2 + 3.
 </details>

@@ -210,7 +210,8 @@ go run .
 go run -ldflags "-X main.Version=2.0.0" .
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `version dev`, then `version 2.0.0`. The default value applies unless the linker overwrites it with `-X`.
 </details>
@@ -289,3 +290,5 @@ You've finished Part 4: you can build real programs in Go.
 
 Then Part 5: expert topics (how the scheduler, memory and garbage collector work; profiling and
 performance).
+
+**Next → [Part 5, Lesson 31: Memory, allocations and escape analysis](../../part5/31_memory/README.md)**

@@ -164,7 +164,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `30`. The squares are 1, 4, 9, 16, 25... The loop adds 1 + 4 + 9 + 16 = 30, then sees 25 > 20 and breaks.
 </details>
@@ -281,3 +282,5 @@ You've finished Part 2. Before Part 3:
    file processor, built around a small interface and proper error wrapping.
 
 Then Part 3: concurrency, Go's superpower.
+
+**Next → [Part 3, Lesson 17: Goroutines and WaitGroup](../../part3/17_goroutines/README.md)**

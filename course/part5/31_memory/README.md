@@ -257,7 +257,8 @@ items := make([]Item, 1_000_000)
 fmt.Println(unsafe.Sizeof(Item{}), "bytes each,", unsafe.Sizeof(Item{})*1_000_000/1_000_000, "MB total")
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `24 bytes each, 24 MB total`. `Active` gets 7 bytes of padding so `ID` lines up, and `Kind` gets 7 more
 at the end. Reordering to `ID, Active, Kind` gives 16 bytes each, saving 8 MB for a million items.

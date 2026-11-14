@@ -226,7 +226,8 @@ wg.Wait()
 fmt.Println(counter == 1000)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 Usually `false`. Each load and store is atomic, but **load-then-store is two steps**: two goroutines can
 load the same value and both store `v+1`. The race detector won't complain (every access is atomic),

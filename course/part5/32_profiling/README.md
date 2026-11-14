@@ -193,7 +193,8 @@ A profile shows:
 
 Which function do you optimize?
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `findUser`: it spends 3.9 s **itself** (flat). `processAll` has a high **cum** only because it calls
 `findUser`. Its own work (flat 0.05 s) is tiny, so optimizing it wouldn't help.

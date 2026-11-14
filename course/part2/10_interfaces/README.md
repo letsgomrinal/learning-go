@@ -162,7 +162,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `Hello | Hola Ana | Hello | `. Each element calls its own type's `Greet`. (Also notice
 `func (English) Greet()`: when a method doesn't use its receiver, you can leave out the name.

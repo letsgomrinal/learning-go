@@ -232,7 +232,8 @@ for range s {
 fmt.Println(len(s), count, len([]rune(s)))
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `6 3 3`. `G` and `o` are 1 byte each, and the emoji is 4 bytes, so `len` is 6. But there are only
 3 characters, which both `range` and `[]rune` see.

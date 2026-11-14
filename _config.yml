@@ -2,7 +2,8 @@
 # Folders starting with _ (like _solutions) are left out of the website, but stay in the repository.
 title: "Learning Go: zero to hero"
 description: "A step-by-step Go course for Python developers, from your first program to expert topics."
-theme: jekyll-theme-cayman
+# Pages use our own layout (_layouts/default.html, assets/css/course.css, assets/js/course.js).
+# Lesson order for the sidebar and progress tracker lives in _data/course.yml.
 relative_links:
   enabled: true
 exclude:

@@ -109,7 +109,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `go 2 1 0 `. Three defers stack up with i = 0, 1, 2 (evaluated at each `defer`), then run in
 reverse when `main` returns.

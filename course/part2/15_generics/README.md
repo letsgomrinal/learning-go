@@ -170,7 +170,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `2 0`. The same function works for strings and ints. `T` is inferred separately at each call.
 </details>

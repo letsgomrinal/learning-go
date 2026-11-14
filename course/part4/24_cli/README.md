@@ -93,7 +93,7 @@ Every program has three standard streams. In Go they're `*os.File` values, which
 
 | Stream | Go | For |
 |---|---|---|
-| standard input | `os.Stdin` (a Reader) | data piped in: `cat file \| gwc` |
+| standard input | `os.Stdin` (a Reader) | data piped in: <code>cat file &#124; gwc</code> |
 | standard output | `os.Stdout` (a Writer) | the program's results |
 | standard error | `os.Stderr` (a Writer) | error messages and diagnostics |
 
@@ -188,7 +188,8 @@ fs.Parse([]string{"-v", "a.txt", "-n", "3"})
 fmt.Println(*n, *v, fs.Args())
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `10 true [a.txt -n 3]`. Flag parsing **stops at the first non-flag argument** (`a.txt`). Everything
 after it, including `-n 3`, is treated as a normal argument. Put flags first.

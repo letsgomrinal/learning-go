@@ -186,7 +186,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `{1 5} {11 2}`. `move` gets a copy of `a` and returns a changed copy. Changing `a.Y` afterwards
 doesn't affect `b`. (Also notice `X, Y int`: fields of the same type can share a line.)

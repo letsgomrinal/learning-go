@@ -124,7 +124,8 @@ var s string
 fmt.Println(a, s == "", b)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `3 true 3`. `a` starts at 0, then becomes 0 + 3. `s` is the empty string, so `s == ""` is `true`.
 </details>
@@ -284,7 +285,8 @@ y := 4
 fmt.Printf("%d %v %.1f %T\n", x/y, x%y, float64(x)/float64(y), x/y)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `2 2 2.5 int`. `10 / 4` is 2 (integer division), `10 % 4` is 2, the float division is 2.5,
 and `x/y` is an `int`.

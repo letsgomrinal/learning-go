@@ -259,7 +259,8 @@ func main() {
 }
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 `g ? p `. The empty string returns `ErrEmpty`, so we print `?` and skip to the next item.
 </details>

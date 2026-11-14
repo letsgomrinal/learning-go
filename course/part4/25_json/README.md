@@ -253,7 +253,8 @@ json.Unmarshal([]byte(`{"name":"cup","price":2.5,"color":"red"}`), &it)
 fmt.Println(it.Name, it.Price)
 ```
 
-<details><summary>Answer</summary>
+<details markdown="1">
+<summary>Answer</summary>
 
 ```
 {"name":"pen"}
